@@ -94,7 +94,14 @@ export default function ChatContainer({
   return (
     <div
       className="relative flex flex-col h-dvh w-full max-w-[520px] mx-auto overflow-hidden"
-      style={{ background: "var(--background)" }}
+      style={{
+        backgroundColor: "var(--background)",
+        backgroundImage: `
+          radial-gradient(ellipse 900px 600px at 15% -10%, rgba(255, 46, 136, 0.10), transparent 60%),
+          radial-gradient(ellipse 800px 700px at 100% 20%, rgba(168, 85, 247, 0.09), transparent 55%),
+          radial-gradient(ellipse 1000px 800px at 50% 120%, rgba(255, 46, 136, 0.06), transparent 60%)
+        `,
+      }}
     >
       <ChatHeader name={botName} avatarSrc={avatarSrc} isTyping={state.isTyping} />
       <ProgressBar progress={progress} />
