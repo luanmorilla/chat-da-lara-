@@ -8,11 +8,11 @@
 
   --background: #060407;
   --background-secondary: #0D0910;
-  --background-card: #17111A;
-  --background-elevated: #1F1622;
+  --background-card: #241C29;
+  --background-elevated: #2E2333;
 
-  --border: #2A1F2E;
-  --border-soft: #201822;
+  --border: #382C3E;
+  --border-soft: #2A1F2E;
 
   --text: #FFFFFF;
   --text-secondary: #C6BAC9;
@@ -145,11 +145,11 @@ color:inherit;
 
 .glass{
 
-background:rgba(255,255,255,.05);
+background:rgba(13,9,16,.75);
 
 backdrop-filter:blur(18px);
 
-border:1px solid rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.06);
 
 }
 
@@ -159,7 +159,7 @@ border:1px solid rgba(255,255,255,.08);
 
 background: var(--background-card);
 
-border:1px solid var(--border);
+border:1px solid var(--border-soft);
 
 border-radius:20px;
 
@@ -278,7 +278,7 @@ opacity:1;
 background: var(--background-card);
 border: 1px solid var(--border-soft);
 color: var(--text);
-box-shadow: 0 4px 16px rgba(0,0,0,.35);
+box-shadow: 0 4px 16px rgba(0,0,0,.4);
 
 }
 
@@ -286,7 +286,7 @@ box-shadow: 0 4px 16px rgba(0,0,0,.35);
 
 background: linear-gradient(135deg, var(--primary), #FF5FA3);
 color: #fff;
-box-shadow: 0 6px 18px rgba(255,46,136,.28);
+box-shadow: 0 6px 18px rgba(255,46,136,.3);
 
 }
 
@@ -294,7 +294,6 @@ box-shadow: 0 6px 18px rgba(255,46,136,.28);
    POLIMENTO VISUAL - v2
 ===================================================== */
 
-/* ---------- Botões CTA (dinheiro) ---------- */
 .btn-shine {
   position: relative;
   overflow: hidden;
@@ -338,7 +337,6 @@ box-shadow: 0 6px 18px rgba(255,46,136,.28);
   }
 }
 
-/* ---------- Entrada das bolhas de mensagem ---------- */
 .bubble-pop {
   animation: bubblePop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -354,7 +352,6 @@ box-shadow: 0 6px 18px rgba(255,46,136,.28);
   }
 }
 
-/* ---------- Pulso do indicador "online" ---------- */
 .pulse-ring {
   position: relative;
 }
@@ -380,7 +377,6 @@ box-shadow: 0 6px 18px rgba(255,46,136,.28);
   }
 }
 
-/* ---------- Brilho correndo na barra de progresso ---------- */
 .progress-shine {
   position: relative;
   overflow: hidden;
@@ -412,9 +408,22 @@ box-shadow: 0 6px 18px rgba(255,46,136,.28);
 }
 
 /* ---------- Foco visível (acessibilidade) ---------- */
-:focus-visible {
+/* Botões e elementos clicáveis: anel visível padrão */
+button:focus-visible,
+a:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+/* Inputs: anel suave em box-shadow, não outline duro
+   (evita parecer "campo com erro") */
+input:focus-visible {
+  outline: none;
+}
+
+.input-pill:focus-within {
+  border-color: var(--secondary) !important;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.18);
 }
 
 /* ---------- Safe area (notch / ilha dinâmica) ---------- */
@@ -423,7 +432,7 @@ box-shadow: 0 6px 18px rgba(255,46,136,.28);
 }
 
 .safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
 }
 
 /* ---------- Respeita usuários que preferem menos animação ---------- */

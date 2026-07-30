@@ -17,8 +17,6 @@ interface ChatContainerProps {
   avatarSrc: string;
 }
 
-/* Estilos estáticos (não dependem de state/props) ficam fora do
-   componente pra não serem recriados a cada render */
 const SEND_BUTTON_STYLE: React.CSSProperties = {
   width: 46,
   height: 46,
@@ -48,8 +46,6 @@ export default function ChatContainer({
   const bottomRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
 
-  /* Evita rodar .find() no array inteiro em todo re-render;
-     só recalcula quando o passo atual ou a conversa mudam */
   const currentStep = useMemo(
     () => conversation.find((s) => s.id === state.currentStepId),
     [conversation, state.currentStepId]
@@ -57,9 +53,6 @@ export default function ChatContainer({
 
   const showNameInput = currentStep?.type === "input-name";
 
-  /* Scroll: primeira renderização vai direto (sem animação),
-     as próximas usam "smooth" — evita um scroll "saltado"
-     estranho quando o chat carrega com histórico restaurado */
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
       behavior: isFirstRender.current ? "auto" : "smooth",
@@ -112,14 +105,14 @@ export default function ChatContainer({
       {showNameInput && currentStep?.type === "input-name" && (
         <form
           onSubmit={handleSubmitName}
-          className="flex items-center gap-2 px-4 py-3 safe-bottom fade-in"
+          className="flex items-center gap-2 px-4 pt-3 safe-bottom fade-in"
           style={{
             borderTop: "1px solid var(--border-soft)",
             background: "var(--background-secondary)",
           }}
         >
           <div
-            className="flex-1 flex items-center px-4 py-1"
+            className="input-pill flex-1 flex items-center px-4 py-1 transition-shadow"
             style={{
               background: "var(--background-card)",
               border: "1px solid var(--border)",
