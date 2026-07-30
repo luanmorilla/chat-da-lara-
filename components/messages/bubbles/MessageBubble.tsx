@@ -9,7 +9,7 @@ interface MessageBubbleProps {
 }
 
 const MEDIA_RADIUS = "var(--radius) var(--radius) var(--radius) 4px";
-const MEDIA_SHADOW = "0 4px 20px rgba(0, 0, 0, 0.4)";
+const MEDIA_SHADOW = "var(--shadow-md)";
 
 function formatTime(timestamp: number) {
   return new Date(timestamp).toLocaleTimeString("pt-BR", {
@@ -35,13 +35,13 @@ function MessageBubbleComponent({
     return {
       background: isUser
         ? "linear-gradient(135deg, var(--primary), var(--primary-soft))"
-        : "var(--background-card)",
+        : "linear-gradient(180deg, var(--background-elevated), var(--background-card))",
       color: isUser ? "#fff" : "var(--text)",
       border: isUser ? "none" : "1px solid var(--border-soft)",
       borderRadius: isFirstInGroup ? tailRadius : roundedRadius,
       boxShadow: isUser
-        ? "0 6px 18px rgba(255, 46, 136, 0.3)"
-        : "0 4px 16px rgba(0, 0, 0, 0.4)",
+        ? "0 8px 22px rgba(255, 46, 136, 0.32), inset 0 1px 0 rgba(255,255,255,0.16)"
+        : "var(--shadow-sm)",
     };
   }, [isUser, isFirstInGroup]);
 
@@ -66,12 +66,12 @@ function MessageBubbleComponent({
       >
         {message.content && (
           <div
-            className={`px-4 py-2.5 text-[14.5px] leading-relaxed bubble-pop ${tailClass}`}
+            className={`px-4 py-2.5 text-[14.5px] leading-relaxed tracking-[-0.01em] bubble-pop ${tailClass}`}
             style={textBubbleStyle}
           >
             {message.content}
             <span
-              className="block text-right mt-1 text-[10.5px] opacity-70"
+              className="block text-right mt-1 text-[10.5px] font-medium opacity-70 tabular-nums"
               style={{ color: isUser ? "rgba(255,255,255,.85)" : "var(--text-muted)" }}
             >
               {formatTime(message.timestamp)}
@@ -80,50 +80,62 @@ function MessageBubbleComponent({
         )}
 
         {message.type === "image" && message.media?.src && (
-          <img
-            src={message.media.src}
-            alt=""
-            loading="lazy"
-            className={`max-w-full bubble-pop ${message.media.blurred ? "blur-xl scale-105" : ""}`}
+          <div
+            className="relative overflow-hidden bubble-pop"
             style={{
               borderRadius: MEDIA_RADIUS,
               border: "1px solid var(--border-soft)",
               boxShadow: MEDIA_SHADOW,
             }}
-          />
+          >
+            <img
+              src={message.media.src}
+              alt=""
+              loading="lazy"
+              className={`block max-w-full transition-transform duration-300 ${
+                message.media.blurred ? "blur-xl scale-105" : ""
+              }`}
+            />
+          </div>
         )}
 
         {message.type === "video" && message.media?.src && (
-          <video
-            src={message.media.src}
-            poster={message.media.thumbnail}
-            controls
-            playsInline
-            preload="metadata"
-            className={`max-w-full bubble-pop ${message.media.blurred ? "blur-xl scale-105" : ""}`}
+          <div
+            className="relative overflow-hidden bubble-pop"
             style={{
               borderRadius: MEDIA_RADIUS,
               border: "1px solid var(--border-soft)",
               boxShadow: MEDIA_SHADOW,
             }}
-          />
+          >
+            <video
+              src={message.media.src}
+              poster={message.media.thumbnail}
+              controls
+              playsInline
+              preload="metadata"
+              className={`block max-w-full transition-transform duration-300 ${
+                message.media.blurred ? "blur-xl scale-105" : ""
+              }`}
+            />
+          </div>
         )}
 
         {message.type === "audio" && message.media?.src && (
           <div
             className="px-4 py-3 bubble-pop flex flex-col gap-2 min-w-[220px]"
             style={{
-              background: "var(--background-card)",
+              background: "linear-gradient(180deg, var(--background-elevated), var(--background-card))",
               border: "1px solid var(--border-soft)",
               borderRadius: MEDIA_RADIUS,
-              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.4)",
+              boxShadow: "var(--shadow-sm)",
             }}
           >
             <div
-              className="flex items-center gap-1.5 text-[12px] font-medium"
-              style={{ color: "var(--secondary)" }}
+              className="flex items-center gap-1.5 text-[12px] font-semibold tracking-tight"
+              style={{ color: "var(--secondary-soft)" }}
             >
-              <span>🎤</span>
+              <span aria-hidden>🎤</span>
               <span>Mensagem de voz</span>
             </div>
             <audio
@@ -172,7 +184,13 @@ function ChatButtonItem({ button, onClick }: ChatButtonItemProps) {
           ? "linear-gradient(135deg, var(--primary), var(--secondary))"
           : "var(--primary)",
       color: "#fff",
-      border: button.variant === "secondary" ? "1px solid var(--border)" : "none",
+      border:
+        button.variant === "secondary" ? "1px solid var(--border)" : "none",
+      boxShadow: isCta
+        ? "0 8px 24px rgba(255, 46, 136, 0.32), inset 0 1px 0 rgba(255,255,255,0.2)"
+        : button.variant === "secondary"
+        ? "none"
+        : "0 4px 14px rgba(255, 46, 136, 0.25)",
     }),
     [button.variant, isCta]
   );
@@ -180,7 +198,7 @@ function ChatButtonItem({ button, onClick }: ChatButtonItemProps) {
   return (
     <button
       onClick={handleClick}
-      className={`px-4 py-3 text-[14px] font-medium rounded-full transition-transform active:scale-95 text-left touch-manipulation ${
+      className={`px-4 py-3 text-[14px] font-medium rounded-full transition-all duration-150 active:scale-95 text-left touch-manipulation hover:brightness-[1.07] hover:-translate-y-px ${
         isCta ? "btn-shine btn-cta font-semibold" : ""
       }`}
       style={style}

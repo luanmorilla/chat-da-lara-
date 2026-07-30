@@ -18,9 +18,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Lara VIP",
-
   description: "Experiência exclusiva.",
-
   applicationName: "Lara VIP",
 
   authors: [
@@ -30,7 +28,6 @@ export const metadata: Metadata = {
   ],
 
   creator: "Lara VIP",
-
   keywords: ["chat", "vip", "premium", "conteúdo"],
 
   robots: {
@@ -63,13 +60,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body
-        className={`
-          ${inter.variable}
-          ${poppins.variable}
-          antialiased
-        `}
-      >
+      <body className={`${inter.variable} ${poppins.variable} antialiased`}>
         {children}
       </body>
     </html>

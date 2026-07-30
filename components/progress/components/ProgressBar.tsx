@@ -5,7 +5,7 @@ interface ProgressBarProps {
 export default function ProgressBar({ progress }: ProgressBarProps) {
   return (
     <div
-      className="w-full h-[4px] overflow-hidden sticky top-[64px] z-10"
+      className="relative w-full h-[4px] overflow-hidden z-10 shrink-0"
       style={{
         background: "var(--background-elevated)",
         borderBottom: "1px solid var(--border-soft)",

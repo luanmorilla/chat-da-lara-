@@ -9,15 +9,15 @@ interface ChatHeaderProps {
 export default function ChatHeader({ name, avatarSrc, isTyping }: ChatHeaderProps) {
   return (
     <header
-      className="flex items-center gap-2 px-2 pt-4 pb-3 sticky top-0 z-20 glass safe-top"
+      className="flex items-center gap-2.5 px-2 pt-4 pb-3 sticky top-0 z-20 glass safe-top"
       style={{
         borderBottom: "1px solid var(--border-soft)",
-        boxShadow: "0 4px 20px rgba(0,0,0,.35)",
+        boxShadow: "0 4px 24px rgba(0,0,0,.38)",
       }}
     >
       <button
         aria-label="Voltar"
-        className="p-2 rounded-full transition-colors active:scale-90"
+        className="p-2 rounded-full transition-all duration-150 active:scale-90 hover:bg-white/[0.06]"
         style={{ color: "var(--text-secondary)" }}
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -25,35 +25,40 @@ export default function ChatHeader({ name, avatarSrc, isTyping }: ChatHeaderProp
         </svg>
       </button>
 
-      <div className="pulse-ring rounded-full">
+      <div className="pulse-ring rounded-full shrink-0">
         <Avatar src={avatarSrc} alt={name} online />
       </div>
 
       <div className="flex flex-col leading-tight gap-0.5 flex-1 min-w-0">
         <span
           className="font-semibold text-[16px] font-heading truncate"
-          style={{ color: "var(--text)", letterSpacing: "0.2px" }}
+          style={{ color: "var(--text)", letterSpacing: "0.1px" }}
         >
           {name}
         </span>
         <span
-          className="text-[12.5px] font-medium transition-colors duration-300 flex items-center gap-1"
+          className="text-[12.5px] font-medium transition-colors duration-300 flex items-center gap-1.5"
           style={{ color: isTyping ? "var(--primary)" : "var(--success)" }}
         >
           {!isTyping && (
             <span
               className="inline-block rounded-full"
-              style={{ width: 6, height: 6, background: "var(--success)" }}
+              style={{
+                width: 6,
+                height: 6,
+                background: "var(--success)",
+                boxShadow: "0 0 6px rgba(37, 211, 102, 0.7)",
+              }}
             />
           )}
           {isTyping ? "digitando..." : "online agora"}
         </span>
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5">
         <button
           aria-label="Chamada de vídeo"
-          className="p-2 rounded-full transition-colors active:scale-90"
+          className="p-2 rounded-full transition-all duration-150 active:scale-90 hover:bg-white/[0.06]"
           style={{ color: "var(--text-secondary)" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -63,7 +68,7 @@ export default function ChatHeader({ name, avatarSrc, isTyping }: ChatHeaderProp
         </button>
         <button
           aria-label="Chamada de voz"
-          className="p-2 rounded-full transition-colors active:scale-90"
+          className="p-2 rounded-full transition-all duration-150 active:scale-90 hover:bg-white/[0.06]"
           style={{ color: "var(--text-secondary)" }}
         >
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -21,7 +21,8 @@ const SEND_BUTTON_STYLE: React.CSSProperties = {
   width: 46,
   height: 46,
   background: "linear-gradient(135deg, var(--primary), var(--secondary))",
-  boxShadow: "0 4px 16px rgba(255, 46, 136, 0.35)",
+  boxShadow:
+    "0 6px 20px rgba(255, 46, 136, 0.38), inset 0 1px 0 rgba(255,255,255,0.22)",
 };
 
 export default function ChatContainer({
@@ -91,11 +92,14 @@ export default function ChatContainer({
   );
 
   return (
-    <div className="flex flex-col h-dvh w-full max-w-[520px] mx-auto overflow-hidden">
+    <div
+      className="relative flex flex-col h-dvh w-full max-w-[520px] mx-auto overflow-hidden"
+      style={{ background: "var(--background)" }}
+    >
       <ChatHeader name={botName} avatarSrc={avatarSrc} isTyping={state.isTyping} />
       <ProgressBar progress={progress} />
 
-      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 flex flex-col">
+      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-5 flex flex-col gap-2.5">
         {groupedMessages.map(({ message, isFirstInGroup }) => (
           <MessageBubble
             key={message.id}
@@ -107,7 +111,7 @@ export default function ChatContainer({
         ))}
 
         {state.isTyping && (
-          <div className="flex justify-start mt-3">
+          <div className="flex justify-start mt-1">
             <TypingIndicator />
           </div>
         )}
@@ -118,18 +122,21 @@ export default function ChatContainer({
       {showNameInput && currentStep?.type === "input-name" && (
         <form
           onSubmit={handleSubmitName}
-          className="flex items-center gap-2 px-4 pt-3 safe-bottom fade-in"
+          className="flex items-center gap-2.5 px-4 pt-3 safe-bottom fade-in relative z-10"
           style={{
             borderTop: "1px solid var(--border-soft)",
-            background: "var(--background-secondary)",
+            background:
+              "linear-gradient(180deg, var(--background-secondary), var(--background))",
+            boxShadow: "0 -8px 24px rgba(0, 0, 0, 0.28)",
           }}
         >
           <div
-            className="input-pill flex-1 flex items-center px-4 py-1 transition-shadow"
+            className="input-pill flex-1 flex items-center px-4 py-1"
             style={{
               background: "var(--background-card)",
               border: "1px solid var(--border)",
               borderRadius: "999px",
+              boxShadow: "var(--shadow-sm)",
             }}
           >
             <input
@@ -138,7 +145,7 @@ export default function ChatContainer({
               value={nameValue}
               onChange={handleNameChange}
               placeholder={currentStep.placeholder ?? "Digite seu nome"}
-              className="flex-1 bg-transparent py-2.5 text-base outline-none touch-manipulation"
+              className="flex-1 bg-transparent py-2.5 text-base outline-none touch-manipulation placeholder:text-[var(--text-faint)]"
               style={{ color: "var(--text)" }}
             />
           </div>
@@ -147,7 +154,7 @@ export default function ChatContainer({
             type="submit"
             disabled={!nameValue.trim()}
             aria-label={currentStep.buttonLabel ?? "Enviar"}
-            className="shrink-0 flex items-center justify-center rounded-full active:scale-90 transition-transform touch-manipulation disabled:opacity-40"
+            className="btn-shine shrink-0 flex items-center justify-center rounded-full active:scale-90 transition-transform duration-150 touch-manipulation disabled:opacity-40 disabled:pointer-events-none"
             style={SEND_BUTTON_STYLE}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
