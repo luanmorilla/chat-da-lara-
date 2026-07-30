@@ -6,27 +6,30 @@
 
 :root {
 
-  --background: #050505;
-  --background-secondary: #0A0A0A;
-  --background-card: #111111;
+  --background: #060407;
+  --background-secondary: #0D0910;
+  --background-card: #17111A;
+  --background-elevated: #1F1622;
 
-  --border: #202020;
+  --border: #2A1F2E;
+  --border-soft: #201822;
 
   --text: #FFFFFF;
-  --text-secondary: #B8B8B8;
-  --text-muted: #7A7A7A;
+  --text-secondary: #C6BAC9;
+  --text-muted: #8A7C8E;
 
   --primary: #FF2E88;
   --primary-hover: #FF4A99;
 
-  --secondary: #FF67B0;
+  --secondary: #A855F7;
 
   --success: #25D366;
   --danger: #ff4444;
 
   --shadow: rgba(0,0,0,.45);
 
-  --radius:18px;
+  --radius: 18px;
+  --radius-sm: 12px;
 
 }
 
@@ -56,9 +59,15 @@ background:var(--background);
 
 color:var(--text);
 
-font-family:Inter,sans-serif;
+font-family: var(--font-inter), Inter, sans-serif;
 
 overflow-x:hidden;
+
+}
+
+h1, h2, h3, .font-heading {
+
+font-family: var(--font-poppins), Poppins, sans-serif;
 
 }
 
@@ -148,9 +157,9 @@ border:1px solid rgba(255,255,255,.08);
 
 .card{
 
-background:#111;
+background: var(--background-card);
 
-border:1px solid #1e1e1e;
+border:1px solid var(--border);
 
 border-radius:20px;
 
@@ -178,7 +187,7 @@ linear-gradient(
 
 #FF2E88,
 
-#FF67B0
+#A855F7
 
 );
 
@@ -258,7 +267,30 @@ opacity:1;
 
 }
 
-}/* =====================================================
+}
+
+/* =====================================================
+   BOLHAS DE MENSAGEM - visual definitivo
+===================================================== */
+
+.bubble-bot {
+
+background: var(--background-card);
+border: 1px solid var(--border-soft);
+color: var(--text);
+box-shadow: 0 4px 16px rgba(0,0,0,.35);
+
+}
+
+.bubble-user {
+
+background: linear-gradient(135deg, var(--primary), #FF5FA3);
+color: #fff;
+box-shadow: 0 6px 18px rgba(255,46,136,.28);
+
+}
+
+/* =====================================================
    POLIMENTO VISUAL - v2
 ===================================================== */
 
