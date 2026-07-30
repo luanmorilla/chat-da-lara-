@@ -3,6 +3,7 @@ import { ChatButton, ChatMessage } from "@/types/chat";
 
 interface MessageBubbleProps {
   message: ChatMessage;
+  isFirstInGroup: boolean;
   onButtonClick: (button: ChatButton) => void;
   onAudioEnded: (stepId: string) => void;
 }
@@ -10,46 +11,71 @@ interface MessageBubbleProps {
 const MEDIA_RADIUS = "var(--radius) var(--radius) var(--radius) 4px";
 const MEDIA_SHADOW = "0 4px 20px rgba(0, 0, 0, 0.4)";
 
+function formatTime(timestamp: number) {
+  return new Date(timestamp).toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function MessageBubbleComponent({
   message,
+  isFirstInGroup,
   onButtonClick,
   onAudioEnded,
 }: MessageBubbleProps) {
   const isUser = message.from === "user";
 
-  const textBubbleStyle = useMemo<React.CSSProperties>(
-    () => ({
+  const textBubbleStyle = useMemo<React.CSSProperties>(() => {
+    const tailRadius = isUser
+      ? "var(--radius) var(--radius) 4px var(--radius)"
+      : "var(--radius) var(--radius) var(--radius) 4px";
+    const roundedRadius = "var(--radius)";
+
+    return {
       background: isUser
-        ? "linear-gradient(135deg, var(--primary), #FF5FA3)"
+        ? "linear-gradient(135deg, var(--primary), var(--primary-soft))"
         : "var(--background-card)",
       color: isUser ? "#fff" : "var(--text)",
       border: isUser ? "none" : "1px solid var(--border-soft)",
-      borderRadius: isUser
-        ? "var(--radius) var(--radius) 4px var(--radius)"
-        : "var(--radius) var(--radius) var(--radius) 4px",
+      borderRadius: isFirstInGroup ? tailRadius : roundedRadius,
       boxShadow: isUser
         ? "0 6px 18px rgba(255, 46, 136, 0.3)"
         : "0 4px 16px rgba(0, 0, 0, 0.4)",
-    }),
-    [isUser]
-  );
+    };
+  }, [isUser, isFirstInGroup]);
+
+  const tailClass = isFirstInGroup
+    ? isUser
+      ? "bubble-tail-user"
+      : "bubble-tail-bot"
+    : "";
 
   const handleAudioEnded = useCallback(() => {
     onAudioEnded(message.stepId);
   }, [onAudioEnded, message.stepId]);
 
   return (
-    <div className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}>
+    <div
+      className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
+      style={{ marginTop: isFirstInGroup ? 12 : 2 }}
+    >
       <div
         className={`flex flex-col gap-1.5 ${isUser ? "items-end" : "items-start"}`}
         style={{ maxWidth: "78%" }}
       >
         {message.content && (
           <div
-            className="px-4 py-3 text-[14.5px] leading-relaxed bubble-pop"
+            className={`px-4 py-2.5 text-[14.5px] leading-relaxed bubble-pop ${tailClass}`}
             style={textBubbleStyle}
           >
             {message.content}
+            <span
+              className="block text-right mt-1 text-[10.5px] opacity-70"
+              style={{ color: isUser ? "rgba(255,255,255,.85)" : "var(--text-muted)" }}
+            >
+              {formatTime(message.timestamp)}
+            </span>
           </div>
         )}
 
@@ -58,9 +84,7 @@ function MessageBubbleComponent({
             src={message.media.src}
             alt=""
             loading="lazy"
-            className={`max-w-full bubble-pop ${
-              message.media.blurred ? "blur-xl scale-105" : ""
-            }`}
+            className={`max-w-full bubble-pop ${message.media.blurred ? "blur-xl scale-105" : ""}`}
             style={{
               borderRadius: MEDIA_RADIUS,
               border: "1px solid var(--border-soft)",
@@ -76,9 +100,7 @@ function MessageBubbleComponent({
             controls
             playsInline
             preload="metadata"
-            className={`max-w-full bubble-pop ${
-              message.media.blurred ? "blur-xl scale-105" : ""
-            }`}
+            className={`max-w-full bubble-pop ${message.media.blurred ? "blur-xl scale-105" : ""}`}
             style={{
               borderRadius: MEDIA_RADIUS,
               border: "1px solid var(--border-soft)",
@@ -117,11 +139,7 @@ function MessageBubbleComponent({
         {message.type === "buttons" && message.buttons && (
           <div className="flex flex-col gap-2 w-full">
             {message.buttons.map((button) => (
-              <ChatButtonItem
-                key={button.id}
-                button={button}
-                onClick={onButtonClick}
-              />
+              <ChatButtonItem key={button.id} button={button} onClick={onButtonClick} />
             ))}
           </div>
         )}
@@ -154,8 +172,7 @@ function ChatButtonItem({ button, onClick }: ChatButtonItemProps) {
           ? "linear-gradient(135deg, var(--primary), var(--secondary))"
           : "var(--primary)",
       color: "#fff",
-      border:
-        button.variant === "secondary" ? "1px solid var(--border)" : "none",
+      border: button.variant === "secondary" ? "1px solid var(--border)" : "none",
     }),
     [button.variant, isCta]
   );

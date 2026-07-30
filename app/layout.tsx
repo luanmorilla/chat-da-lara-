@@ -12,22 +12,14 @@ const inter = Inter({
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
-  weight: [
-    "300",
-    "400",
-    "500",
-    "600",
-    "700",
-    "800",
-  ],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Lara VIP",
 
-  description:
-    "Experiência exclusiva.",
+  description: "Experiência exclusiva.",
 
   applicationName: "Lara VIP",
 
@@ -39,16 +31,19 @@ export const metadata: Metadata = {
 
   creator: "Lara VIP",
 
-  keywords: [
-    "chat",
-    "vip",
-    "premium",
-    "conteúdo",
-  ],
+  keywords: ["chat", "vip", "premium", "conteúdo"],
 
   robots: {
     index: false,
     follow: false,
+  },
+
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
+    url: false,
   },
 
   themeColor: "#050505",
@@ -67,10 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="pt-BR"
-      suppressHydrationWarning
-    >
+    <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={`
           ${inter.variable}

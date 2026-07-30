@@ -53,6 +53,18 @@ export default function ChatContainer({
 
   const showNameInput = currentStep?.type === "input-name";
 
+  /* Agrupa mensagens consecutivas do mesmo remetente:
+     só a primeira de cada grupo recebe o rabinho do balão */
+  const groupedMessages = useMemo(
+    () =>
+      state.messages.map((message, index) => ({
+        message,
+        isFirstInGroup:
+          index === 0 || state.messages[index - 1].from !== message.from,
+      })),
+    [state.messages]
+  );
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
       behavior: isFirstRender.current ? "auto" : "smooth",
@@ -83,18 +95,19 @@ export default function ChatContainer({
       <ChatHeader name={botName} avatarSrc={avatarSrc} isTyping={state.isTyping} />
       <ProgressBar progress={progress} />
 
-      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 flex flex-col gap-3">
-        {state.messages.map((message) => (
+      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 flex flex-col">
+        {groupedMessages.map(({ message, isFirstInGroup }) => (
           <MessageBubble
             key={message.id}
             message={message}
+            isFirstInGroup={isFirstInGroup}
             onButtonClick={clickButton}
             onAudioEnded={notifyAudioEnded}
           />
         ))}
 
         {state.isTyping && (
-          <div className="flex justify-start">
+          <div className="flex justify-start mt-3">
             <TypingIndicator />
           </div>
         )}
@@ -137,16 +150,7 @@ export default function ChatContainer({
             className="shrink-0 flex items-center justify-center rounded-full active:scale-90 transition-transform touch-manipulation disabled:opacity-40"
             style={SEND_BUTTON_STYLE}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#fff"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <line x1="22" y1="2" x2="11" y2="13" />
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
