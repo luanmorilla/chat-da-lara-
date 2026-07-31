@@ -185,7 +185,9 @@ function ChatButtonItem({ button, onClick }: ChatButtonItemProps) {
           : "var(--primary)",
       color: "#fff",
       border:
-        button.variant === "secondary" ? "1px solid var(--border)" : "none",
+        button.variant === "secondary" ? "1.5px solid var(--border)" : "none",
+      borderRadius: "var(--radius)",
+      minHeight: 58,
       boxShadow: isCta
         ? "0 8px 24px rgba(255, 46, 136, 0.32), inset 0 1px 0 rgba(255,255,255,0.2)"
         : button.variant === "secondary"
@@ -198,12 +200,14 @@ function ChatButtonItem({ button, onClick }: ChatButtonItemProps) {
   return (
     <button
       onClick={handleClick}
-      className={`px-4 py-3 text-[14px] font-medium rounded-full transition-all duration-150 active:scale-95 text-left touch-manipulation hover:brightness-[1.07] hover:-translate-y-px ${
-        isCta ? "btn-shine btn-cta font-semibold" : ""
+      className={`px-6 py-5 text-[16.5px] font-semibold tracking-[-0.01em] transition-all duration-150 active:scale-95 text-left touch-manipulation hover:brightness-[1.07] hover:-translate-y-0.5 ${
+        isCta ? "btn-shine btn-cta" : ""
       }`}
       style={style}
     >
-      {button.emoji ? `${button.emoji} ` : ""}
+      {button.emoji ? (
+        <span className="mr-2.5 text-[19px] align-middle">{button.emoji}</span>
+      ) : null}
       {button.label}
     </button>
   );

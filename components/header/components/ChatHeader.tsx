@@ -9,7 +9,7 @@ interface ChatHeaderProps {
 export default function ChatHeader({ name, avatarSrc, isTyping }: ChatHeaderProps) {
   return (
     <header
-      className="flex items-center gap-2.5 px-2 pt-4 pb-3 sticky top-0 z-20 glass safe-top"
+      className="flex items-center gap-2.5 px-3 pt-4 pb-3 sticky top-0 z-20 glass safe-top"
       style={{
         borderBottom: "1px solid var(--border-soft)",
         boxShadow: "0 4px 24px rgba(0,0,0,.38)",

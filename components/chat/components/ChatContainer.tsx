@@ -106,7 +106,7 @@ export default function ChatContainer({
       <ChatHeader name={botName} avatarSrc={avatarSrc} isTyping={state.isTyping} />
       <ProgressBar progress={progress} />
 
-      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-5 flex flex-col gap-2.5">
+      <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-5 flex flex-col gap-2.5">
         {groupedMessages.map(({ message, isFirstInGroup }) => (
           <MessageBubble
             key={message.id}
@@ -129,7 +129,7 @@ export default function ChatContainer({
       {showNameInput && currentStep?.type === "input-name" && (
         <form
           onSubmit={handleSubmitName}
-          className="flex items-center gap-2.5 px-4 pt-3 safe-bottom fade-in relative z-10"
+          className="flex items-center gap-2.5 px-5 pt-3 safe-bottom fade-in relative z-10"
           style={{
             borderTop: "1px solid var(--border-soft)",
             background:
