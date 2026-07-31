@@ -2,38 +2,36 @@
 
 import { useEffect, useRef, useState } from "react";
 
-/* =====================================================
-   CHAT LARA - DETECÇÃO DE INTENÇÃO DE SAÍDA
-   Desktop: mouse sai pela parte de cima da tela
-   Mobile: botão "voltar" do navegador
-===================================================== */
-
-export function useExitIntent(enabled: boolean) {
+export function useExitIntent(
+  enabled: boolean,
+  onStay?: () => void
+) {
   const [showExitModal, setShowExitModal] = useState(false);
   const alreadyTriggeredRef = useRef(false);
 
   useEffect(() => {
     if (!enabled) return;
 
-    // ---------- DESKTOP: mouse saindo pelo topo da tela ----------
+    // Desktop: mouse saindo pelo topo
     function handleMouseLeave(e: MouseEvent) {
       if (alreadyTriggeredRef.current) return;
+
       if (e.clientY <= 0) {
         alreadyTriggeredRef.current = true;
         setShowExitModal(true);
       }
     }
 
-    // ---------- MOBILE: botão "voltar" ----------
-    // Empilha um estado extra no histórico. Se o usuário voltar,
-    // interceptamos antes de sair da página de verdade.
+    // Mobile: botão voltar
     window.history.pushState({ exitGuard: true }, "");
 
     function handlePopState() {
       if (alreadyTriggeredRef.current) return;
+
       alreadyTriggeredRef.current = true;
       setShowExitModal(true);
-      // Empurra o estado de novo, pra manter a pessoa na página
+
+      // Mantém o usuário na página
       window.history.pushState({ exitGuard: true }, "");
     }
 
@@ -48,7 +46,28 @@ export function useExitIntent(enabled: boolean) {
 
   function closeExitModal() {
     setShowExitModal(false);
+
+    // Executa o retorno do chat após fechar o modal
+    if (onStay) {
+      setTimeout(() => {
+        onStay();
+      }, 300);
+    }
   }
 
-  return { showExitModal, closeExitModal };
+  function stayOnPage() {
+    setShowExitModal(false);
+
+    if (onStay) {
+      setTimeout(() => {
+        onStay();
+      }, 300);
+    }
+  }
+
+  return {
+    showExitModal,
+    closeExitModal,
+    stayOnPage,
+  };
 }

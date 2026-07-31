@@ -394,4 +394,44 @@ export const laraConversation: ChatStep[] = [
       },
     ],
   },
-];
+  {
+    id: "return-message-1",
+    type: "message",
+    text: "Aiii 😍 Eu vi que você tentou sair, {{name}}... mas fica comigo mais um pouquinho ❤️",
+    showTyping: true,
+    typingDuration: 1500,
+    next: "return-message-2",
+  },
+  {
+    id: "return-message-2",
+    type: "message",
+    text: "Tenho certeza que você vai gostar do que preparei pra você 😈🔥",
+    showTyping: true,
+    typingDuration: 1500,
+    next: "return-buttons",
+  },
+  {
+    id: "return-buttons",
+    type: "buttons",
+    text: "Escolhe uma opção aqui embaixo 👇",
+    buttons: [
+      {
+        id: "preview-again",
+        label: "Ver prévias",
+        emoji: "🔥",
+        next: "send-preview-video-1",
+      },
+      {
+        id: "privacy-again",
+        label: "Entrar no Privacy",
+        emoji: "💎",
+        next: "send-subscribe-link",
+      },
+      {
+        id: "gift-again",
+        label: "Mandar presentinho",
+        emoji: "🎁",
+        next: "gift-intro",
+      },
+    ],
+  },];

@@ -207,11 +207,18 @@ export function useChatEngine(conversation: ChatStep[]) {
     },
     [getStepById]
   );
-
+  const goToStep = useCallback((stepId: string) => {
+    processedStepRef.current = null;
+    dispatch({
+      type: "GOTO_STEP",
+      payload: stepId,
+    });
+  }, []);
   return {
     state,
     submitName,
     clickButton,
     notifyAudioEnded,
+    goToStep,
   };
 }

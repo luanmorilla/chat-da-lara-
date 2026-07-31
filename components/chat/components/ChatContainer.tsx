@@ -30,12 +30,20 @@ export default function ChatContainer({
   botName,
   avatarSrc,
 }: ChatContainerProps) {
-  const { state, submitName, clickButton, notifyAudioEnded } =
-    useChatEngine(conversation);
-
-  const { showExitModal, closeExitModal } = useExitIntent(
-    state.messages.length > 0
-  );
+  const {
+    state,
+    submitName,
+    clickButton,
+    notifyAudioEnded,
+    goToStep,
+  } = useChatEngine(conversation);
+    const { showExitModal, closeExitModal } = useExitIntent(
+      state.messages.length > 0,
+      () => {
+        // volta para o fluxo de recuperação
+        state.currentStepId = "return-message-1";
+      }
+    );
 
   const progress = useChatProgress(
     conversation,
